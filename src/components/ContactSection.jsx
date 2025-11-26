@@ -1,13 +1,28 @@
 import { Instagram, Linkedin, Mail, MapPin, Phone, Send, Twitter } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useToast } from '../hooks/use-toast';
+import { useRef } from 'react';
+import emailjs from '@emailjs/browser';
 
 const ContactSection = () => {
 
     const { toast } = useToast();
+    const form = useRef();
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        emailjs
+            .sendForm('service_m6ns0s9', 'template_ye6ue9d', form.current, {
+                publicKey: 'rJjRVFI5ah7p1yXpP',
+            })
+            .then(
+                () => {
+                    console.log('SUCCESS!');
+                },
+                (error) => {
+                    console.log('FAILED...', error.text);
+                },
+            );
         setTimeout(() => {
             toast({
                 title: "Message Sent!",
